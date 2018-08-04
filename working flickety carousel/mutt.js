@@ -31,25 +31,36 @@ $(document).ready(function(){
             }
         }).then(response=> {
             // console.log(response);
-            var dogName = response.petfinder.pets.pet[1].name.$t;
-            var dogAge = response.petfinder.pets.pet[1].age.$t;
-            var dogSex = response.petfinder.pets.pet[1].sex.$t;
-            var dogSize = response.petfinder.pets.pet[1].size.$t;
-            var dogDescription = response.petfinder.pets.pet[1].description.$t;
-            var largePic = response.petfinder.pets.pet[1].media.photos.photo[2].$t;
-            var photoGallery = response.petfinder.pets.pet[1].media.photos.photo;
+            // var dogName = response.petfinder.pets.pet[1].name.$t;
+            // var dogAge = response.petfinder.pets.pet[1].age.$t;
+            // var dogSex = response.petfinder.pets.pet[1].sex.$t;
+            // var dogSize = response.petfinder.pets.pet[1].size.$t;
+            // var dogDescription = response.petfinder.pets.pet[1].description.$t;
+            // var largePic = response.petfinder.pets.pet[1].media.photos.photo[2].$t;
+            // var photoGallery = response.petfinder.pets.pet[1].media.photos.photo;
             // console.log(response.petfinder.pets.pet[1].media.photos.photo)
+
+
+            //Loops through each dog pulled back from ajax request
             response.petfinder.pets.pet.forEach(function(j){
                 console.log(j.media.photos.photo);
+                //This loop goes through the first 5 images for each dog
+                //Each image pulled from the API has the same image in 5 different sizes
+                //This for loop looks for the first full sized image of the dog
                 for (l = 0; l < 5 ; l++){
                     if (j.media.photos.photo[l]["@size"] == "x"){
                         console.log(j.media.photos.photo[l].$t);
+                        //Sets the first full size image of the dog to uniqueDogImg
                         var uniqueDogImg = j.media.photos.photo[l].$t;
+                        //Creatin a div to hold the iamge
                         var uniqueDogDiv = $("<div>");
                         var newImg = $("<img>");
+                        //Adds class to work with carousel
                         uniqueDogDiv.addClass("carousel-cell");
+                        //setting src of the image of the first full sized image of the dog
                         newImg.attr("src", uniqueDogImg);
                         uniqueDogDiv.html(newImg);
+                        //Appends the image to the carousel
                         $carousel.flickity( 'append', uniqueDogDiv )
                     }
                 }
