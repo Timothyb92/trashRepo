@@ -26,14 +26,22 @@ $(document).ready(function(){
                 format: "json"
             }
         }).then(response=> {
+            console.log(response);
             var dogName = response.petfinder.pets.pet[1].name.$t;
             var dogAge = response.petfinder.pets.pet[1].age.$t;
             var dogSex = response.petfinder.pets.pet[1].sex.$t;
             var dogSize = response.petfinder.pets.pet[1].size.$t;
             var dogDescription = response.petfinder.pets.pet[1].description.$t;
-            console.log(response);
             var largePic = response.petfinder.pets.pet[1].media.photos.photo[2].$t;
+            var photoGallery = response.petfinder.pets.pet[1].media.photos.photo;
             // $("#dogModalPic").attr("src", largePic);
+            console.log(response.petfinder.pets.pet[1].media.photos.photo)
+            photoGallery.forEach(function(i){
+                // console.log(i);
+                if (i["@size"] == "x"){
+                    console.log(i.$t)
+                }
+            })
             $("#dogModalPic").addClass("img-responsive");
             $("#modalTitle").text(dogName);
             $("#description").html(dogDescription);
@@ -70,7 +78,6 @@ $(document).ready(function(){
           for (i = 0; i < 3; i++){
             ebayItemImg = response.findCompletedItemsResponse[0].searchResult[0].item[i].galleryURL[0];
             ebayItemLink = response.findCompletedItemsResponse[0].searchResult[0].item[i].viewItemURL[0];
-            console.log(response.findCompletedItemsResponse[0].searchResult[0].item[i].galleryURL[0]);
             var productLink = $("<a>");
             var productImg = $("<img>");
             productLink.attr("href", ebayItemLink)
