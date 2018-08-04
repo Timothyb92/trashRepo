@@ -43,27 +43,22 @@ $(document).ready(function(){
             response.petfinder.pets.pet.forEach(function(j){
 
             })
-            var dogImgArr = [];
             photoGallery.forEach(function(i){
-                // console.log(i);
+                // THIS LOOP IS WORKING ON photoGallery VARIABLE
+                //VARIABLE IS ONLY SET TO 1 DOG IN THE ARRAY OF 25 DOGS
+                //THIS LOOP IS MEANT TO PUSH EVERY ADDITIONAL IMAGE OF ONE SPECIFIC DOG
+                //TO THE INNER CAROUSEL INSIDE THE MODAL
                 if (i["@size"] == "x"){
                     console.log(i.$t)
                     var newCarouselDiv = $("<div>");
                     var newCarImg = $("<img>");
                     newCarouselDiv.addClass("carousel-cell");
-                    // newCarImg.addClass("d-block w-100 bg-secondary");
                     newCarImg.attr("src", i.$t);
                     newCarouselDiv.html(newCarImg);
-                    // dogImgArr.push(newCarouselDiv);
-                    // dogImgArr[0].addClass("active");
-                    $carousel.flickity( 'append', newCarouselDiv )
+                    // $carousel.flickity( 'append', newCarouselDiv )
                 }
             })
 
-            dogImgArr.forEach(function(k){
-                console.log(dogImgArr);
-                console.log("dogImgArr[k]: " + dogImgArr[k]);
-            })
             $("#dogModalPic").addClass("img-responsive");
             $("#modalTitle").text(dogName);
             $("#description").html(dogDescription);
