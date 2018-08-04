@@ -30,7 +30,7 @@ $(document).ready(function(){
                 format: "json"
             }
         }).then(response=> {
-            console.log(response);
+            // console.log(response);
             var dogName = response.petfinder.pets.pet[1].name.$t;
             var dogAge = response.petfinder.pets.pet[1].age.$t;
             var dogSex = response.petfinder.pets.pet[1].sex.$t;
@@ -38,9 +38,21 @@ $(document).ready(function(){
             var dogDescription = response.petfinder.pets.pet[1].description.$t;
             var largePic = response.petfinder.pets.pet[1].media.photos.photo[2].$t;
             var photoGallery = response.petfinder.pets.pet[1].media.photos.photo;
-            // $("#dogModalPic").attr("src", largePic);
-            console.log(response.petfinder.pets.pet[1].media.photos.photo)
+            // console.log(response.petfinder.pets.pet[1].media.photos.photo)
             response.petfinder.pets.pet.forEach(function(j){
+                console.log(j.media.photos.photo);
+                for (l = 0; l < 5 ; l++){
+                    if (j.media.photos.photo[l]["@size"] == "x"){
+                        console.log(j.media.photos.photo[l].$t);
+                        var uniqueDogImg = j.media.photos.photo[l].$t;
+                        var uniqueDogDiv = $("<div>");
+                        var newImg = $("<img>");
+                        uniqueDogDiv.addClass("carousel-cell");
+                        newImg.attr("src", uniqueDogImg);
+                        uniqueDogDiv.html(newImg);
+                        $carousel.flickity( 'append', uniqueDogDiv )
+                    }
+                }
 
             })
             photoGallery.forEach(function(i){
@@ -91,7 +103,7 @@ $(document).ready(function(){
           
         // }
       }).then(response => {
-          console.log(response)
+        //   console.log(response)
           for (i = 0; i < 3; i++){
             ebayItemImg = response.findCompletedItemsResponse[0].searchResult[0].item[i].galleryURL[0];
             ebayItemLink = response.findCompletedItemsResponse[0].searchResult[0].item[i].viewItemURL[0];
@@ -118,24 +130,6 @@ $(document).ready(function(){
           $(this).carousel("next");
           console.log("Here")
         } );
-        // $(‘#myCarousel’).hammer().on(‘swipeleft’, function(){
-        //       $(this).carousel(‘next’);
-        //   })
-        //   $(‘#myCarousel’).hammer().on(‘swiperight’, function(){
-        //       $(this).carousel(‘prev’);
-        //   })
-     
-        // Hammer(myElement).on(“swipeleft”, function(){
-        //     $(this).carousel(‘next’);
-        //     console.log(“Swiped”);
-        //     })
-     
-        //var hammer = new Hammer();
-     
-        // hammer($(myElement)).on(‘swiperight’, function(){
-        //           $(this).carousel(‘next’);
-        //     //   })
-        // });
      
     
      $(".carousel-control-prev-icon").on( "click", function( event ) 
