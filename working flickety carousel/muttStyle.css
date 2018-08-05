@@ -89,14 +89,19 @@ img {
         background: transparent;
       }
 
+      .fa-info-circle:before {
+        position: absolute;
+        bottom: 20;
+        right: 50;
+        color: #017bff;
+      }
+      
       .modal-body {
         position: relative;
         padding: 20px;
         /* height: 200px; */
         overflow-y: scroll;
         }
-
-         
 
        
         
