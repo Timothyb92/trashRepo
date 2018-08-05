@@ -1,11 +1,17 @@
 $(document).ready(function(){
+  //Variable housing neccessary data for image carousel
     var $carousel = $('.carousel').flickity()
   .flickity('next')
   .flickity( 'select', 4 );
+
+  //Arrays housing information retrieved from ebay api
+  //Each array holds 3 item images and links to their URL of dog products according to size
     var smallDogItem = [];
     var mediumDogItem = [];
     var largeDogItem = [];
 
+
+    //petfinder api call
     var petUrl = "http://api.petfinder.com/pet.find";
     var petApiKey = "aaf7ea34460505b8e7841f0512aae7a4"
     $.ajax({
@@ -34,16 +40,10 @@ $(document).ready(function(){
             }
         }).then(response=> {
             console.log(response);
-            // var dogName = response.petfinder.pets.pet[1].name.$t;
-            // var dogAge = response.petfinder.pets.pet[1].age.$t;
-            // var dogSex = response.petfinder.pets.pet[1].sex.$t;
-            // var dogSize = response.petfinder.pets.pet[1].size.$t;
-            // var dogDescription = response.petfinder.pets.pet[1].description.$t;
-            // var largePic = response.petfinder.pets.pet[1].media.photos.photo[2].$t;
-            // var photoGallery = response.petfinder.pets.pet[1].media.photos.photo;
-            // console.log(response.petfinder.pets.pet[1].media.photos.photo)
+            console.log(response.petfinder.pets.pet)
 
-
+           //Variable that starts at zero, increases for each loop iteration. Used to hold unique info in each modal
+            var dogIndex = 0;
             //Loops through each dog pulled back from ajax request
             response.petfinder.pets.pet.forEach(function(j){
                 //This loop goes through the first 5 images for each dog
@@ -53,7 +53,7 @@ $(document).ready(function(){
                     if (j.media.photos.photo[l]["@size"] == "x"){
                         //Sets the first full size image of the dog to uniqueDogImg
                         var uniqueDogImg = j.media.photos.photo[l].$t;
-                        //Creatin a div to hold the iamge
+                        //Creatin a div to hold the image
                         var uniqueDogDiv = $("<div>");
                         var newImg = $("<img>");
                         //Gets the info icon from FontAwesome
@@ -63,18 +63,21 @@ $(document).ready(function(){
                         //setting src of the image of the first full sized image of the dog
                         newImg.attr("src", uniqueDogImg);
                         newImg.addClass("uniqueDogImg");
+                        uniqueDogDiv.attr("data-index", dogIndex);
+                        uniqueDogDiv.attr("data-size", j.size.$t);
                         uniqueDogDiv.html(newImg);
                         //Sets styling for info icon on each image
                         infoIcon.css("position", "absolute");
                         infoIcon.css("bottom", "20");
                         infoIcon.css("right", "50");
                         infoIcon.css("color", "#017bff");
+                        infoIcon.attr("data-index", dogIndex)
                         uniqueDogDiv.append(infoIcon)
                         //Appends the image to the carousel
                         $carousel.flickity( 'append', uniqueDogDiv )
+                        dogIndex++;
                     }
                 }
-
             })
             // photoGallery.forEach(function(i){
             //     // THIS LOOP IS WORKING ON photoGallery VARIABLE
@@ -178,7 +181,7 @@ $(document).ready(function(){
             imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
             itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
         })
-        console.log(mediumDogItem)
+        // console.log(mediumDogItem)
       });
 
       ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
@@ -252,7 +255,7 @@ $(document).ready(function(){
             imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
             itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
         })
-        console.log(smallDogItem)
+        // console.log(smallDogItem)
       });
 
       ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
@@ -326,7 +329,7 @@ $(document).ready(function(){
             imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
             itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
         })
-        console.log(largeDogItem)
+        // console.log(largeDogItem)
       });
 
       $(document).on("click", ".fas", function(){
