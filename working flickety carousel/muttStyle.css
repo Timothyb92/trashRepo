@@ -9,9 +9,9 @@ img {
     
 } 
 
-body {
-    overflow: hidden;
-}
+/* body { */
+    /* overflow: hidden; */
+/* } */
 
 /* no circle */
 .flickity-button {
