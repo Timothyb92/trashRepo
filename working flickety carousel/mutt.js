@@ -2,9 +2,9 @@ $(document).ready(function(){
     var $carousel = $('.carousel').flickity()
   .flickity('next')
   .flickity( 'select', 4 );
-  var smallDogProducts = {};
-    var mediumDogProducts = {};
-    var largeDogProducts = {};
+    var smallDogItem = [];
+    var mediumDogItem = [];
+    var largeDogItem = [];
 
     var petUrl = "http://api.petfinder.com/pet.find";
     var petApiKey = "aaf7ea34460505b8e7841f0512aae7a4"
@@ -91,9 +91,9 @@ $(document).ready(function(){
             // $("#details").append($("<p>").addClass("col-md-4").text("Sex: " + dogSex));
         });
     });
-    
-    var searchString = "";
-    var ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+
+    var searchString;
+      var ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
       ebayURL += "?OPERATION-NAME=findCompletedItems";
       ebayURL += "&SERVICE-VERSION=1.13.0";
       ebayURL += "&SERVICE-NAME=FindingService";
@@ -103,65 +103,224 @@ $(document).ready(function(){
       ebayURL += "&REST-PAYLOAD";
       ebayURL += "&paginationInput.pageNumber=1";
       ebayURL += "&paginationInput.entriesPerPage=10";
-      ebayURL += "&keywords=" + searchString;
       ebayURL += "&sortOrder=StartTimeNewest";
-    
 
-      searchString = "medium dog toys";
-      $.ajax({
-        type: "GET",
-        url: ebayURL,
-        dataType: "jsonp",
-      }).then(response => {
-          console.log(response);
-        //   ebayItemImg = response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0];
-        //   ebayItemLink = response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0];
-                //   var productLink = $("<a>");
-                //   var productImg = $("<img>");
-                //   productLink.attr("href", ebayItemLink)
-                //   productImg.attr("src", ebayItemImg);
-                //   productLink.html(productImg);
-        // mediumDogProducts.itemOneImg = ebayItemImg;
-        // mediumDogProducts.itemOneUrl = ebayItemLink;
-      });ebayURL += "&sortOrder=StartTimeNewest";
-
+      //This ajax request seems useless but the following requests to ebay API fail without it
+      //no idea why
       searchString = "medium dog leash";
+      ebayURL += "&keywords=" + searchString;
       $.ajax({
         type: "GET",
         url: ebayURL,
         dataType: "jsonp",
       }).then(response => {
-        console.log(response);
-            // ebayItemImg = response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0];
-            // ebayItemLink = response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0];
-                    // var productLink = $("<a>");
-                    // var productImg = $("<img>");
-                    // productLink.attr("href", ebayItemLink)
-                    // productImg.attr("src", ebayItemImg);
-                    // productLink.html(productImg);
-            // mediumDogProducts.itemTwoImg = ebayItemImg;
-            // mediumDogProducts.itemTwoUrl = ebayItemLink;
-      });ebayURL += "&sortOrder=StartTimeNewest";
+          mediumDogItem.push({
+              imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+              itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+          })
+      });
+
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
 
       searchString = "medium dog food";
+      ebayURL += "&keywords=" + searchString;
       $.ajax({
         type: "GET",
         url: ebayURL,
         dataType: "jsonp",
       }).then(response => {
-        console.log(response);
-            // ebayItemImg = response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0];
-            // ebayItemLink = response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0];
-                    // var productLink = $("<a>");
-                    // var productImg = $("<img>");
-                    // productLink.attr("href", ebayItemLink)
-                    // productImg.attr("src", ebayItemImg);
-                    // productLink.html(productImg);
-            // mediumDogProducts.itemThreeImg = ebayItemImg;
-            // mediumDogProducts.itemThreeUrl = ebayItemLink;
-      });ebayURL += "&sortOrder=StartTimeNewest";
-      console.log(mediumDogProducts);
-        
+          mediumDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+      });
+      
+      
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "medium dog flea medicine";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          mediumDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+        console.log(mediumDogItem)
+      });
+
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "small dog food";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          smallDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+      });
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "small dog leash";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          smallDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+      });
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "small dog flea medicine";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          smallDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+        console.log(smallDogItem)
+      });
+
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "large dog leash";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          largeDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+      });
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "large dog food";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          largeDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+      });
+      ebayURL = "http://svcs.ebay.com/services/search/FindingService/v1";
+      ebayURL += "?OPERATION-NAME=findCompletedItems";
+      ebayURL += "&SERVICE-VERSION=1.13.0";
+      ebayURL += "&SERVICE-NAME=FindingService";
+      ebayURL += "&SECURITY-APPNAME=TimothyB-MuttMatc-PRD-8ed499e41-2cbab10d";
+      ebayURL += "&GLOBAL-ID=EBAY-US";
+      ebayURL += "&RESPONSE-DATA-FORMAT=JSON";
+      ebayURL += "&REST-PAYLOAD";
+      ebayURL += "&paginationInput.pageNumber=1";
+      ebayURL += "&paginationInput.entriesPerPage=10";
+      ebayURL += "&sortOrder=StartTimeNewest";
+
+      searchString = "large dog flea medicine";
+      ebayURL += "&keywords=" + searchString;
+      $.ajax({
+        type: "GET",
+        url: ebayURL,
+        dataType: "jsonp",
+      }).then(response => {
+          largeDogItem.push({
+            imageURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].galleryURL[0],
+            itemURL: response.findCompletedItemsResponse[0].searchResult[0].item[0].viewItemURL[0]
+        })
+        console.log(largeDogItem)
+      });
+
+    
         $("#myCarousel").on( "swipeleft", function( event )
         {
           $(this).carousel("prev");
