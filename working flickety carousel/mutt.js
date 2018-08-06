@@ -1,8 +1,10 @@
 $(document).ready(function(){
   //Variable housing neccessary data for image carousel
-    var $carousel = $('.carousel').flickity()
+  var $carousel = $('.carousel').flickity()
   .flickity('next')
   .flickity( 'select', 4 );
+
+  var $innerCarousel = $("#innerCarousel").flickity();
 
   //Arrays housing information retrieved from ebay api
   //Each array holds 3 item images and links to their URL of dog products according to size
@@ -98,7 +100,7 @@ $(document).ready(function(){
                 //the array of this unique dog's images are pushed to a parent array, with an index corresponding to that dog's data-index
                 modalDogImages.push(thisDogPics);
             })
-            console.log(modalDogImages);
+            // console.log(modalDogImages);
 
 
 
@@ -119,7 +121,6 @@ $(document).ready(function(){
             //         // $carousel.flickity( 'append', newCarouselDiv )
             //     }
             // })
-
             // $("#dogModalPic").addClass("img-responsive");
             // $("#modalTitle").text(dogName);
             // $("#description").html(dogDescription);
@@ -357,13 +358,15 @@ $(document).ready(function(){
         // console.log(largeDogItem)
       });
 
+      //On click function that grabs all images of selected dog from modalDogImages array
       $(document).on("click", ".fas", function(){
         console.log(".uniqueDogImg clicked");
-        console.log($(this));
-        console.log($(this[0]));
-        $('#myModal').modal({
-          keyboard: true
-        })
+        console.log($(this)[0].dataset.index);
+        var currentIndex = $(this)[0].dataset.index;
+        console.log(modalDogImages[currentIndex]);
+        // $('#myModal').modal({
+        //   keyboard: true
+        // })
       })
 
     
@@ -391,4 +394,5 @@ $(document).ready(function(){
           $("#myCarousel").carousel('next');
           console.log("next")
         } )
+        console.log(modalDogImages);
     })
