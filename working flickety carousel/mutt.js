@@ -1,10 +1,12 @@
 $(document).ready(function(){
   //Variable housing neccessary data for image carousel
-  var $carousel = $('.carousel').flickity()
+  var $carousel = $('#myCar').flickity()
   .flickity('next')
   .flickity( 'select', 4 );
 
-  var $innerCarousel = $("#innerCarousel").flickity();
+  var $flkty = $("#innerCarousel").flickity()
+  .flickity('next')
+  .flickity( 'select', 4 );
 
   //Arrays housing information retrieved from ebay api
   //Each array holds 3 item images and links to their URL of dog products according to size
@@ -360,13 +362,31 @@ $(document).ready(function(){
 
       //On click function that grabs all images of selected dog from modalDogImages array
       $(document).on("click", ".fas", function(){
-        console.log(".uniqueDogImg clicked");
-        console.log($(this)[0].dataset.index);
+        var carouselDiv = $("<div>");
+        carouselDiv.addClass("carousel");
         var currentIndex = $(this)[0].dataset.index;
-        console.log(modalDogImages[currentIndex]);
-        // $('#myModal').modal({
-        //   keyboard: true
-        // })
+
+        // This for each loop iterates on each image of the selected dog
+        modalDogImages[currentIndex].forEach(function(n){
+          //Creates a new div to hold the dog's images
+          var thisDogDiv = $("<div>");
+          //Creates a new img tag for each image of the dog
+          var thisDogImg = $("<img>");
+          //Gives the carousel-cell class to work with the carousel
+          thisDogDiv.addClass("carousel-cell");
+          //gives the image the src attribute of the image
+          thisDogImg.attr("src", n);
+          //inserts the img tag into the div holding the dog image
+          thisDogDiv.html(thisDogImg);
+          console.log(thisDogDiv.html());
+          //appends the div holding the image to the carousel
+          $flkty.flickity( 'append', thisDogDiv )
+        })
+
+
+        $('#myModal').modal({
+          keyboard: true
+        })
       })
 
     
