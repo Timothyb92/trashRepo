@@ -9,6 +9,7 @@ $(document).ready(function(){
     var smallDogItem = [];
     var mediumDogItem = [];
     var largeDogItem = [];
+    var modalDogImages = [];
 
 
     //petfinder api call
@@ -39,11 +40,12 @@ $(document).ready(function(){
                 format: "json"
             }
         }).then(response=> {
-            console.log(response);
-            console.log(response.petfinder.pets.pet)
+            // console.log(response);
+            // console.log(response.petfinder.pets.pet)
 
            //Variable that starts at zero, increases for each loop iteration. Used to hold unique info in each modal
             var dogIndex = 0;
+            var thisDogPics = [];
             //Loops through each dog pulled back from ajax request
             response.petfinder.pets.pet.forEach(function(j){
                 //This loop goes through the first 5 images for each dog
@@ -78,7 +80,30 @@ $(document).ready(function(){
                         dogIndex++;
                     }
                 }
+
+                //This for each loop is used to push extra images of each dog to an array for use in the modal
+                // it takes each full size image of each unique dog and pushes it to an array
+                //That array of images is then pushed to a parent array.
+                //The each index of the parent array corresponds each unique dog in the order that they come from the API
+
+                //array holding each dog's pictures initialized empty
+                thisDogPics = [];
+                j.media.photos.photo.forEach(function(m){
+                  //If the image is full sized
+                  if (m["@size"] == "x"){
+                    //the image is pushed to the thisDogPics array
+                    thisDogPics.push(m.$t);
+                  }
+                })
+                //the array of this unique dog's images are pushed to a parent array, with an index corresponding to that dog's data-index
+                modalDogImages.push(thisDogPics);
             })
+            console.log(modalDogImages);
+
+
+
+
+
             // photoGallery.forEach(function(i){
             //     // THIS LOOP IS WORKING ON photoGallery VARIABLE
             //     //VARIABLE IS ONLY SET TO 1 DOG IN THE ARRAY OF 25 DOGS
@@ -334,6 +359,8 @@ $(document).ready(function(){
 
       $(document).on("click", ".fas", function(){
         console.log(".uniqueDogImg clicked");
+        console.log($(this));
+        console.log($(this[0]));
         $('#myModal').modal({
           keyboard: true
         })
